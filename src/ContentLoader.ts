@@ -1,6 +1,7 @@
 import { ContentResourceLoader } from './contentloader/ContentResourceLoader'
 import { MetadataLoader } from './contentloader/MetadataLoader'
 import { ObjectLoader } from './contentloader/ObjectLoader'
+import { v4 as uuidv4 } from 'uuid'
 
 const CONTENT_TYPE = {
   CustomGame: 'Custom Game',
@@ -18,6 +19,12 @@ export class Content {
   customIcons: boolean
 
   preview: string
+
+  objects: string[]
+
+  constructor(private id: string) {
+
+  }
 }
 
 export interface ContentLoader {
@@ -31,7 +38,7 @@ const loaders = [
 ]
 
 export function loadContent(contentPath: string): Content | string {
-  let content = new Content()
+  let content = new Content(uuidv4())
   let resourceLoader = new ContentResourceLoader(contentPath)
 
   for (let loader of loaders) {

@@ -1,4 +1,4 @@
 import { ScrapMechanicHub } from './ScrapMechanicHubLib'
 
-let hub = new ScrapMechanicHub('D:/Game/steamapps/common/Scrap Mechanic')
+let hub = new ScrapMechanicHub('F:\\SteamLibrary\\steamapps\\common\\Scrap Mechanic')
 hub.loadContent('2815418786')

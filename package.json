@@ -22,12 +22,14 @@
     "@types/lodash": "^4.14.182",
     "@types/lowdb": "^1.0.11",
     "@types/node": "^13.1.8",
+    "@types/uuid": "^8.3.4",
     "copy-webpack-plugin": "^5.1.1",
     "lodash": "^4.17.21",
     "lowdb": "^3.0.0",
     "node-loader": "^0.6.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
+    "uuid": "^8.3.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }
