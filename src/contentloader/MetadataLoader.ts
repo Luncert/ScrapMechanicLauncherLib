@@ -5,11 +5,12 @@ import {
 import path from 'path';
 import fs from 'fs';
 import { Optional, isImage } from '../util';
+import { ContentResourceLoader } from "./ContentResourceLoader";
 
 export class MetadataLoader implements ContentLoader {
 
-  load(content: Content): Optional<string> {
-    let raw = fs.readFileSync(path.join(content.rootPath, 'description.json'))
+  load(content: Content, resourceLoader: ContentResourceLoader): Optional<string> {
+    let raw = resourceLoader.load('description.json')
     let data = JSON.parse(raw.toString()) as any
     content.name = data.name
     content.type = data.type
@@ -19,7 +20,13 @@ export class MetadataLoader implements ContentLoader {
     content.version = data.version
     content.customIcons = data.custom_icons
 
-    let preview = fs.readdirSync(content.rootPath)
+    resourceLoader.list('/')
+      .filter(res => {
+        let n = path.parse(res.getName())
+        return n.name === 'preview'
+      })
+
+    let preview = resourceLoader.list('/')
       .map(file => path.parse(file))
       .filter(file => file.name === 'preview' &&
         isImage(file.ext) &&

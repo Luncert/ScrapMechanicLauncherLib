@@ -1,3 +1,4 @@
+import { ContentResourceLoader } from './contentloader/ContentResourceLoader'
 import { MetadataLoader } from './contentloader/MetadataLoader'
 import { ObjectLoader } from './contentloader/ObjectLoader'
 
@@ -8,8 +9,6 @@ const CONTENT_TYPE = {
 }
 
 export class Content {
-  rootPath: string
-
   name: string
   type: string
   description: string
@@ -23,7 +22,7 @@ export class Content {
 
 export interface ContentLoader {
 
-  load(content: Content): void
+  load(content: Content, resourceLoader: ContentResourceLoader): void
 }
 
 const loaders = [
@@ -33,10 +32,10 @@ const loaders = [
 
 export function loadContent(contentPath: string): Content | string {
   let content = new Content()
-  content.rootPath = contentPath
+  let resourceLoader = new ContentResourceLoader(contentPath)
 
   for (let loader of loaders) {
-    let errorMessage = loader.load(content)
+    let errorMessage = loader.load(content, resourceLoader)
     if (errorMessage.isPresent()) {
       return errorMessage.get()
     }
