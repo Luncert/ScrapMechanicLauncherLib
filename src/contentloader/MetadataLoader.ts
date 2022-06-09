@@ -18,9 +18,9 @@ export class MetadataLoader implements ContentLoader {
     content.version = data.version
     content.customIcons = data.custom_icons
 
-    let preview = resourceLoader.lookup('preview.*').filter(res => res.isLoadable() && isImage(res.getExtension()))
-    if (preview.length >= 1) {
-      content.preview = preview[0].getFullName()
+    let preview = resourceLoader.lookupOne('preview.*', res => res.isLoadable() && isImage(res.getExtension()))
+    if (preview.isPresent()) {
+      content.preview = preview.get().getFullName()
     }
 
     return Optional.empty()

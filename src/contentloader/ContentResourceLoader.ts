@@ -2,6 +2,7 @@ import path from "path";
 import fs from 'fs';
 import { LazyLoadingResource, Resource } from "./Resource";
 import { search } from "./AntPathMatcher";
+import { Optional } from "../util";
 
 export class ContentResourceLoader {
 
@@ -18,29 +19,35 @@ export class ContentResourceLoader {
         return new Resource(parsedPath.base, parsedPath.dir, raw)
     }
 
-    list(p: string): LazyLoadingResource[] {
+    list(p: string, filter?: (res: LazyLoadingResource) => boolean): LazyLoadingResource[] {
         let basePath = path.join(this.contentPath, p)
-        return fs.readdirSync(basePath)
+        let r = fs.readdirSync(basePath)
             .map(fileName => {
                 let stat = fs.statSync(path.join(basePath, fileName));
                 return new LazyLoadingResource(fileName, basePath, stat.isFile())
             })
+        return filter ? r.filter(filter) : r
     }
 
     /**
      * Lookup resources.
      * @param p Ant style path pattern
      */
-    lookup(p: string): LazyLoadingResource[] {
-        return search(p, this.contentPath).map(absPath => {
+    lookup(p: string, filter?: (res: LazyLoadingResource) => boolean): LazyLoadingResource[] {
+        let r = search(p, this.contentPath).map(absPath => {
             let stat = fs.statSync(absPath)
             let parsedPath = path.parse(absPath)
             return new LazyLoadingResource(parsedPath.base, parsedPath.dir, stat.isFile())
         })
+        return filter ? r.filter(filter) : r
+
     }
 
-    lookupOne(p: string): LazyLoadingResource {
+    lookupOne(p: string, filter?: (res: LazyLoadingResource) => boolean): Optional<LazyLoadingResource> {
         let r = this.lookup(p)
-        return r.length > 0 ? r[0] : null
+        if (filter) {
+            r = r.filter(filter)
+        }
+        return r.length > 0 ? Optional.of(r[0]) : Optional.empty()
     }
 }
