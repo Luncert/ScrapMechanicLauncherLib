@@ -30,7 +30,7 @@ function searchInner(pattern: string[], cursor: number, basePath: string): strin
     try {
         fs.readdirSync(basePath).filter(fileName => matchPart(part, fileName))
             .forEach(fileName => r.push(...searchInner(pattern, cursor + 1, path.join(basePath, fileName))))
-    } catch (e: any) {
+    } catch (e) {
         if (!(e.message as string).includes('ENOTDIR')) {
             throw e
         }
@@ -48,7 +48,7 @@ function iterateAll(pattern: string[], cursor: number, basePath: string): string
         for (let item of fs.readdirSync(basePath)) {
             r.push(...iterateAll(pattern, cursor, path.join(basePath, item)))
         }
-    } catch (e: any) {
+    } catch (e) {
         if (!(e.message as string).includes('ENOTDIR')) {
             throw e
         }

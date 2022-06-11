@@ -1,5 +1,5 @@
 {
-  "name": "terd",
+  "name": "scrap-mechanic-launcher-lib",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Luncert/Terd.git"
+    "url": "git+https://github.com/Luncert/ScrapMechanicLauncherLib.git"
   },
   "author": "Luncert",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Luncert/Terd/issues"
+    "url": "https://github.com/Luncert/ScrapMechanicLauncherLib/issues"
   },
-  "homepage": "https://github.com/Luncert/Terd",
+  "homepage": "https://github.com/Luncert/ScrapMechanicLauncherLib",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@types/lowdb": "^1.0.11",
